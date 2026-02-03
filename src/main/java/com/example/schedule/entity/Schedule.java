@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name="schedules")
 @Getter
@@ -29,10 +31,9 @@ public class Schedule extends BaseEntity{
         this.pw = pw;
     }
 
-    public void update(String name, String contents, String writer, String pw) {
+    public void update(String name, String contents, String writer) {
         this.name = name;
         this.contents = contents;
         this.writer = writer;
-        this.pw = pw;
     }
 }

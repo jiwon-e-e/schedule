@@ -1,0 +1,22 @@
+package com.example.schedule.dto;
+
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+
+@Getter
+public class UpdateScheduleResponse {
+    private final Long id;
+    private final String name;
+    private final String contents;
+    private final String writer;
+    private final LocalDateTime modifiedAt;
+
+    public UpdateScheduleResponse(Long id, String name, String contents, String writer, LocalDateTime modifiedAt) {
+        this.id = id;
+        this.name = name;
+        this.contents = contents;
+        this.writer = writer;
+        this.modifiedAt = modifiedAt;
+    }
+}
