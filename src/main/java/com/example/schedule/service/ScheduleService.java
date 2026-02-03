@@ -102,14 +102,12 @@ public class ScheduleService {
 
         schedule.update(
                 request.getName(),
-                request.getContents(),
                 request.getWriter()
         );
 
         return new UpdateScheduleResponse(
                 schedule.getId(),
                 schedule.getName(),
-                schedule.getContents(),
                 schedule.getWriter(),
                 schedule.getModifiedAt()
         );
