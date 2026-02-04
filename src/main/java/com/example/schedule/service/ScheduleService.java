@@ -58,7 +58,7 @@ public class ScheduleService {
 
     @Transactional(readOnly = true)
     public List<GetSchedulesResponse> getUserSchedule(String writer) {
-        List<Schedule> schedules = scheduleRepository.findAll();
+        List<Schedule> schedules = scheduleRepository.findAllByOrderByModifiedAtDesc();
         List<GetSchedulesResponse> dtos = new ArrayList<>();
         if (writer==null||writer.isEmpty()){
             for (Schedule schedule : schedules) {
