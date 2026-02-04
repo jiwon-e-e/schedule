@@ -1,6 +1,7 @@
 package com.example.schedule.service;
 
 import com.example.schedule.Exception.NonExistentException;
+import com.example.schedule.Exception.TooManyCommentsException;
 import com.example.schedule.Exception.WrongPasswordException;
 import com.example.schedule.dto.commentDto.CreateCommentRequest;
 import com.example.schedule.dto.commentDto.CreateCommentResponse;
@@ -19,11 +20,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-    private final ScheduleRepository scheduleRepository;
     private final CommentRepository commentRepository;
 
     @Transactional
     public CreateCommentResponse save(CreateCommentRequest request, Long scheduleId) {
+        if (getCommentCountByScheduleId(scheduleId)>=10){
+            throw new TooManyCommentsException("댓글은 10개까지 작성 가능합니다.");
+        }
+
         Comment comment = new Comment(
                 request.getContents(),
                 request.getWriter(),
@@ -74,5 +78,8 @@ public class CommentService {
         return dtos;
     }
 
-
+    public int getCommentCountByScheduleId(Long scheduleId){
+        List<Comment> commentList = commentRepository.findByScheduleId(scheduleId);
+        return commentList.size();
+    }
 }

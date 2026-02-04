@@ -4,6 +4,7 @@ import com.example.schedule.dto.commentDto.CreateCommentRequest;
 import com.example.schedule.dto.commentDto.CreateCommentResponse;
 import com.example.schedule.dto.commentDto.DeleteCommentRequest;
 import com.example.schedule.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class CommentController {
 
     @PostMapping("/comments")
     ResponseEntity<CreateCommentResponse> createComment (
+            @Valid
             @RequestBody CreateCommentRequest request,
             @PathVariable Long scheduleId){
         CreateCommentResponse response = commentService.save(request, scheduleId);

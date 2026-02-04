@@ -2,9 +2,11 @@ package com.example.schedule.controller;
 
 import com.example.schedule.dto.scheduleDto.*;
 import com.example.schedule.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +18,9 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
-    ResponseEntity<CreateScheduleResponse> createSchedule (@RequestBody CreateScheduleRequest request){
+    ResponseEntity<CreateScheduleResponse> createSchedule
+            (@Valid @RequestBody CreateScheduleRequest request){
+
         CreateScheduleResponse response = scheduleService.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
