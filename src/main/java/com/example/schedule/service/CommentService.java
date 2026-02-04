@@ -8,6 +8,7 @@ import com.example.schedule.dto.commentDto.CreateCommentResponse;
 import com.example.schedule.dto.commentDto.DeleteCommentRequest;
 import com.example.schedule.dto.commentDto.GetCommentResponse;
 import com.example.schedule.entity.Comment;
+import com.example.schedule.entity.Schedule;
 import com.example.schedule.repository.CommentRepository;
 import com.example.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,10 @@ public class CommentService {
 
     @Transactional
     public CreateCommentResponse save(CreateCommentRequest request, Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                ()-> new NonExistentException("존재하지 않는 게시물입니다.")
+        );
+
         if (getCommentCountByScheduleId(scheduleId)>=10){
             throw new TooManyCommentsException("댓글은 10개까지 작성 가능합니다.");
         }
@@ -86,13 +91,5 @@ public class CommentService {
         return commentList.size();
     }
 
-    private void validateNullableString(String str, int length) {
-        if (str == null || str.isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"필수값 누락");
-        }
-        if (str.length() > length) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "문자열 범위 초과");
-        }
-    }
 
 }

@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ValidateString {
-    public ValidateString() {
-    }
-
     void validateNullableAndLength(String str, int length) {
         if (str == null || str.isBlank()) {
             throw new BlankFieldException();
