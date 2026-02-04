@@ -1,7 +1,7 @@
 package com.example.schedule.service;
 
 import com.example.schedule.Exception.WrongPasswordException;
-import com.example.schedule.dto.*;
+import com.example.schedule.dto.scheduleDto.*;
 import com.example.schedule.entity.Schedule;
 import com.example.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final CommentService commentService;
 
     @Transactional
     public CreateScheduleResponse save(CreateScheduleRequest request) {
@@ -48,20 +49,19 @@ public class ScheduleService {
                 schedule.getName(),
                 schedule.getContents(),
                 schedule.getWriter(),
+                commentService.findCommentsByScheduleId(id),
                 schedule.getCreatedAt(),
                 schedule.getModifiedAt()
         );
     }
 
     @Transactional(readOnly = true)
-    public List<GetScheduleResponse> getUserSchedule(String writer) {
+    public List<GetSchedulesResponse> getUserSchedule(String writer) {
         List<Schedule> schedules = scheduleRepository.findAll();
-        List<GetScheduleResponse> dtos = new ArrayList<>();
-        //System.out.println("*** writer : "+writer);
+        List<GetSchedulesResponse> dtos = new ArrayList<>();
         if (writer==null||writer.isEmpty()){
-            System.out.println("Writer is empty now!");
             for (Schedule schedule : schedules) {
-                GetScheduleResponse dto = new GetScheduleResponse(
+                GetSchedulesResponse dto = new GetSchedulesResponse(
                         schedule.getId(),
                         schedule.getName(),
                         schedule.getContents(),
@@ -76,7 +76,7 @@ public class ScheduleService {
 
         for (Schedule schedule : schedules) {
             if (schedule.getWriter().equalsIgnoreCase(writer)){
-                GetScheduleResponse dto = new GetScheduleResponse(
+                GetSchedulesResponse dto = new GetSchedulesResponse(
                         schedule.getId(),
                         schedule.getName(),
                         schedule.getContents(),

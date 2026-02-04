@@ -1,40 +1,39 @@
 package com.example.schedule.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-@Entity
-@Table(name="schedules")
 @Getter
+@Entity
+@Table (name = "comments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Schedule extends BaseEntity{
+public class Comment extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 30, nullable = false)
-    private String name;
-    @Column(length = 200, nullable = false)
+    @Column(length = 100, nullable = false)
     private String contents;
     @Column(nullable = false)
     private String writer;
     @Column(nullable = false)
     private String pw;
+    @Column(nullable = false)
+    private Long scheduleId;
 
-    public Schedule(String name, String contents, String writer, String pw) {
-        this.name = name;
+    //JPA query method -> findByscheduleId 를 만들어서 쓰기
+
+    public Comment(String contents, String writer, String pw,Long scheduleId) {
         this.contents = contents;
         this.writer = writer;
         this.pw = pw;
+        this.scheduleId=scheduleId;
     }
 
-    public void update(String name, String writer) {
-        this.name = name;
+    public void update(String contents, String writer) {
+        this.contents = contents;
         this.writer = writer;
     }
 }

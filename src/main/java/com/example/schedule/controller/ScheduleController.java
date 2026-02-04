@@ -1,6 +1,6 @@
 package com.example.schedule.controller;
 
-import com.example.schedule.dto.*;
+import com.example.schedule.dto.scheduleDto.*;
 import com.example.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,8 +28,8 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedules")
-    ResponseEntity<List<GetScheduleResponse>> getUserSchedule (@RequestParam(required = false) String writer){
-        List<GetScheduleResponse> responses = scheduleService.getUserSchedule(writer);
+    ResponseEntity<List<GetSchedulesResponse>> getUserSchedule (@RequestParam(required = false) String writer){
+        List<GetSchedulesResponse> responses = scheduleService.getUserSchedule(writer);
         return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 
