@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,9 +15,15 @@ import java.util.List;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
+    private final ValidateString v;
 
     @PostMapping("/schedules")
     ResponseEntity<CreateScheduleResponse> createSchedule (@RequestBody CreateScheduleRequest request){
+        v.validateNullableAndLength(request.getName(), 30);
+        v.validateNullableAndLength(request.getContents(), 200);
+        v.validateNullable(request.getWriter());
+        v.validateNullable(request.getPw());
+
         CreateScheduleResponse response = scheduleService.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -35,6 +42,9 @@ public class ScheduleController {
 
     @PutMapping("/schedules/{id}")
     ResponseEntity<UpdateScheduleResponse> updateSchedule (@PathVariable Long id, @RequestBody UpdateScheduleRequest request){
+        v.validateNullableAndLength(request.getName(), 30);
+        v.validateNullable(request.getWriter());
+
         UpdateScheduleResponse response = scheduleService.updateSchedule(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

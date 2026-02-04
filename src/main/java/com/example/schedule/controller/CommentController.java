@@ -8,17 +8,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/schedules/{scheduleId}")
 public class CommentController {
     private final CommentService commentService;
+    private final ValidateString v;
 
     @PostMapping("/comments")
     ResponseEntity<CreateCommentResponse> createComment (
             @RequestBody CreateCommentRequest request,
             @PathVariable Long scheduleId){
+
+        v.validateNullableAndLength(request.getContents(),100);
+        v.validateNullable(request.getWriter());
+        v.validateNullable(request.getPw());
+
         CreateCommentResponse response = commentService.save(request, scheduleId);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

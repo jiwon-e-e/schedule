@@ -11,8 +11,10 @@ import com.example.schedule.entity.Comment;
 import com.example.schedule.repository.CommentRepository;
 import com.example.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +84,15 @@ public class CommentService {
     public int getCommentCountByScheduleId(Long scheduleId){
         List<Comment> commentList = commentRepository.findByScheduleId(scheduleId);
         return commentList.size();
+    }
+
+    private void validateNullableString(String str, int length) {
+        if (str == null || str.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"필수값 누락");
+        }
+        if (str.length() > length) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "문자열 범위 초과");
+        }
     }
 
 }
