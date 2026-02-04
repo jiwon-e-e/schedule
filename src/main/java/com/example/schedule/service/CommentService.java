@@ -1,5 +1,6 @@
 package com.example.schedule.service;
 
+import com.example.schedule.Exception.NonExistentException;
 import com.example.schedule.Exception.WrongPasswordException;
 import com.example.schedule.dto.commentDto.CreateCommentRequest;
 import com.example.schedule.dto.commentDto.CreateCommentResponse;
@@ -9,14 +10,8 @@ import com.example.schedule.entity.Comment;
 import com.example.schedule.repository.CommentRepository;
 import com.example.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +46,7 @@ public class CommentService {
     @Transactional
     public void delete(Long id, DeleteCommentRequest request) {
         Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("존재하지 않는 댓글입니다.")
+                () -> new NonExistentException("존재하지 않는 댓글입니다.")
         );
 
         if (comment.getPw().equalsIgnoreCase(request.getPw())){

@@ -1,5 +1,6 @@
 package com.example.schedule.service;
 
+import com.example.schedule.Exception.NonExistentException;
 import com.example.schedule.Exception.WrongPasswordException;
 import com.example.schedule.dto.scheduleDto.*;
 import com.example.schedule.entity.Schedule;
@@ -41,7 +42,7 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public GetScheduleResponse getOneSchedule(Long id) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                ()-> new IllegalStateException("존재하지 않는 게시물입니다.")
+                ()-> new NonExistentException("존재하지 않는 게시물입니다.")
         );
 
         return new GetScheduleResponse(
@@ -93,7 +94,7 @@ public class ScheduleService {
     @Transactional
     public UpdateScheduleResponse updateSchedule(Long id, UpdateScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                ()-> new IllegalStateException("존재하지 않는 게시물입니다.")
+                ()-> new NonExistentException("존재하지 않는 게시물입니다.")
         );
 
         if (!request.getPw().equalsIgnoreCase(schedule.getPw())){
@@ -116,7 +117,7 @@ public class ScheduleService {
     @Transactional
     public void deleteSchedule(Long id, DeleteScheduleRequest request) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                ()-> new IllegalStateException("존재하지 않는 게시물입니다.")
+                ()-> new NonExistentException("존재하지 않는 게시물입니다.")
         );
 
         if (!request.getPw().equalsIgnoreCase(schedule.getPw())){
