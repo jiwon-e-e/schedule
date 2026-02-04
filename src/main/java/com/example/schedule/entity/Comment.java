@@ -1,6 +1,5 @@
 package com.example.schedule.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,8 +21,6 @@ public class Comment extends BaseEntity{
     private String pw;
     @Column(nullable = false)
     private Long scheduleId;
-
-    //JPA query method -> findByscheduleId 를 만들어서 쓰기
 
     public Comment(String contents, String writer, String pw,Long scheduleId) {
         this.contents = contents;
