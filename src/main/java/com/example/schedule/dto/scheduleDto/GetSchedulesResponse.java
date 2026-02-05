@@ -1,7 +1,6 @@
 package com.example.schedule.dto.scheduleDto;
 
 import lombok.Getter;
-
 import java.time.LocalDateTime;
 
 @Getter
