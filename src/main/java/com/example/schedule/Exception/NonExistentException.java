@@ -1,7 +1,9 @@
 package com.example.schedule.Exception;
 
-public class NonExistentException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class NonExistentException extends SystemException {
     public NonExistentException(String message) {
-        super(message);
+        super(HttpStatus.NOT_FOUND, message);
     }
 }

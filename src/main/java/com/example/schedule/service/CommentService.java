@@ -54,7 +54,7 @@ public class CommentService {
         );
 
         if (comment.getPw().equalsIgnoreCase(request.getPw())){
-            throw new WrongPasswordException("비밀번호가 일치하지 않습니다.");
+            throw new WrongPasswordException();
         }
 
         commentRepository.delete(comment);

@@ -98,7 +98,7 @@ public class ScheduleService {
         );
 
         if (!request.getPw().equalsIgnoreCase(schedule.getPw())){
-            throw new WrongPasswordException("비밀번호가 일치하지 않습니다.");
+            throw new WrongPasswordException();
         }
 
         schedule.update(
@@ -121,7 +121,7 @@ public class ScheduleService {
         );
 
         if (!request.getPw().equalsIgnoreCase(schedule.getPw())){
-            throw new WrongPasswordException("비밀번호가 일치하지 않습니다.");
+            throw new WrongPasswordException();
         }
 
         scheduleRepository.deleteById(id);
